@@ -1,0 +1,40 @@
+TODO List + Order
+
+Day 1                                                               ✔
+    1. Setup basic template in accordance with MVC pattern          ✔
+
+    2. Setup bootstrap                                              ✔
+
+    3. Design and Setup Database                                    ✔
+        Design ERD                                                  ✔
+        Setup ERD                                                   ✔                                  
+
+Day 2
+    4. Create easily reapplicable template for CRUD functionality
+        Create
+        Read
+        Update
+        Delete
+
+    5. Login Account(s)
+        Create Accounts, Read Accounts
+            Email?
+            Password hashing
+        Login as "homepage"
+        Stay logged in during session                                        
+
+Day 3
+    6. Create Friendlist functionality                              
+
+Day 4
+    7. Get CRUD for posts working                                   
+
+    8. Get CRUD for reactions working (similar to posts)            
+
+Day 5
+    9. Like posts AND reactions                                     
+
+Day 6
+    10. Give the website a nice and consistent appearance           
+
+    11. Finishing Touches                                           
