@@ -3,15 +3,18 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-
-
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Allow-Methods: *");
 
+require '../vendor/autoload.php';
 require __DIR__ . '/../patternrouter.php';
 
 $uri = trim($_SERVER['REQUEST_URI'], '/');
+
+
+// Start the session
+session_start();
 
 $router = new PatternRouter();
 
@@ -22,3 +25,5 @@ try {
     echo $e;
     die();
 }
+
+?>

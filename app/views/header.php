@@ -9,24 +9,23 @@
 
 <body>
     <main>
-        <div class="container">
             <header class="d-flex justify-content-center py-3 bg-dark">
-                <!-- <ul class="nav nav-pills">
-                    <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
-                    <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
-                </ul> -->
-                <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
-                            <li class="nav-item active">
+                            <li class="nav-item">
                                 <a class="nav-link" href="/">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/about">about</a>
+                                <a class="nav-link" href="/accounts">Accounts</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/account">My Account</a>
                             </li>
                         </ul>
                     </div>
                 </nav>
             </header>
-        </div>
-        <div class="container">

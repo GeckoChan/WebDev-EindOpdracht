@@ -11,8 +11,11 @@ services:
         build:
             context: .
             dockerfile: PHP.Dockerfile
+        working_dir: /app
         volumes:
             - ./app:/app
+        depends_on:
+            - mysql
     mysql:
         image: mariadb:latest
         environment:

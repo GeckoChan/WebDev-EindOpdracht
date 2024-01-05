@@ -1,40 +1,37 @@
 TODO List + Order
 
-Day 1                                                               ✔
-    1. Setup basic template in accordance with MVC pattern          ✔
+1. Setup basic template in accordance with MVC pattern          ✔
 
-    2. Setup bootstrap                                              ✔
+2. Setup bootstrap                                              ✔
 
-    3. Design and Setup Database                                    ✔
-        Design ERD                                                  ✔
-        Setup ERD                                                   ✔                                  
+3. Design and Setup Database                                    ✔
+    Design ERD                                                  ✔
+    Setup ERD                                                   ✔                                  
 
-Day 2
-    4. Create easily reapplicable template for CRUD functionality
-        Create
-        Read
-        Update
-        Delete
+4. Create easily reapplicable template for CRUD functionality   ✔
+    Add all models                                              ✔
+    Create                                                      ✔
+    Read                                                        ✔ 
+    Update                                                      ✔
+    Delete                                                      ✔
 
-    5. Login Account(s)
-        Create Accounts, Read Accounts
-            Email?
-            Password hashing
-        Login as "homepage"
-        Stay logged in during session                                        
+5. Login Account(s)                                             ✔
+    Create Accounts, Read Accounts                              ✔
+        Password hashing                                        ✔
+    Stay logged in during session                               ✔                                        
 
-Day 3
-    6. Create Friendlist functionality                              
+6. Create Friendlist functionality
+    Create friendrequest with Username+Account_Id
+    Read friendrequest from target User+Account_Id
+    Read all Friends                            
 
-Day 4
-    7. Get CRUD for posts working                                   
+7. Get CRUD for posts working                                   
 
-    8. Get CRUD for reactions working (similar to posts)            
+8. Get CRUD for reactions working (similar to posts)            
 
-Day 5
-    9. Like posts AND reactions                                     
+9. Like posts AND reactions                                     
 
-Day 6
-    10. Give the website a nice and consistent appearance           
+10. Give the website a nice and consistent appearance           
 
-    11. Finishing Touches                                           
+11. Finishing Touches    
+    change location of router file?                                       
