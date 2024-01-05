@@ -21,7 +21,7 @@ TODO List + Order
     Stay logged in during session                               ✔                                        
 
 6. Create Friendlist functionality
-    Create friendrequest with Username+Account_Id
+    Create friendrequest with Username+Account_Id               ✔
     Read friendrequest from target User+Account_Id
     Read all Friends                            
 
