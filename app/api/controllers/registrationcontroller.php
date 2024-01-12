@@ -1,7 +1,7 @@
 <?php
 use app\services\AccountService;
 use app\models\Account;
-class Registrationcontroller {
+class RegistrationController {
     public function index() {
 
         $accountService = new AccountService();

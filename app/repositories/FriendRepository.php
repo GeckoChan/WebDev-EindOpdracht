@@ -42,7 +42,7 @@ class FriendRepository extends Repository{
     }
 
     function checkIfExist($account1_id, $account2_id){
-        // Check for a friend request from account1 to account2
+        // check both ways
         $stmt = $this->connection->prepare("SELECT * FROM friends WHERE account1_id = :account1_id AND account2_id = :account2_id AND status = :status");
         $stmt->execute([
             'account1_id' => $account1_id,
@@ -54,7 +54,6 @@ class FriendRepository extends Repository{
             return true;
         }
 
-        // Check for a friend request from account2 to account1
         $stmt = $this->connection->prepare("SELECT * FROM friends WHERE account1_id = :account1_id AND account2_id = :account2_id AND status = :status");
         $stmt->execute([
             'account1_id' => $account2_id,
@@ -73,15 +72,61 @@ class FriendRepository extends Repository{
     function getFriendRequests($account_id){
         $stmt = $this->connection->prepare("SELECT accounts.account_id, accounts.username, accounts.email FROM accounts 
                                             inner JOIN friends ON friends.account1_id = accounts.account_id 
-                                            WHERE friends.account2_id = :account_id; ");
+                                            WHERE friends.account2_id = :account_id
+                                            AND friends.status = :status; ");
         $stmt->execute([
             'account_id' => $account_id,
+            'status' => "pending"
         ]);
     
         $stmt->setFetchMode(\PDO::FETCH_CLASS, Account::class);
         $accounts = $stmt->fetchAll();
     
         return $accounts;
+    }
+
+    function getFriends($account_id){
+        $stmt = $this->connection->prepare("SELECT accounts.account_id, accounts.username, accounts.email FROM accounts 
+                                            inner JOIN friends ON friends.account1_id = accounts.account_id 
+                                            WHERE friends.account2_id = :account_id
+                                            AND friends.status = :status; ");
+        $stmt->execute([
+            'account_id' => $account_id,
+            'status' => "accepted"
+        ]);
+    
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, Account::class);
+        $accounts = $stmt->fetchAll();
+    
+        return $accounts;
+    }
+
+    function acceptFriendRequest($account1_id, $account2_id){
+        // check both ways
+        $stmt = $this->connection->prepare("UPDATE friends SET status = :status WHERE account1_id = :account1_id AND account2_id = :account2_id AND status = :currentstatus");
+        $stmt->execute([
+            'account1_id' => $account1_id,
+            'account2_id' => $account2_id,
+            'status' => "accepted",
+            'currentstatus' => "pending"  
+        ]);
+        if ($stmt->rowCount() > 0) {
+            return true;
+        }
+    
+        $stmt = $this->connection->prepare("UPDATE friends SET status = :status WHERE account1_id = :account1_id AND account2_id = :account2_id AND status = :currentstatus");
+        $stmt->execute([
+            'account1_id' => $account2_id,
+            'account2_id' => $account1_id,
+            'status' => "accepted",
+            'currentstatus' => "pending"  
+        ]);
+        if ($stmt->rowCount() > 0) {
+            return true;
+        }
+    
+        // update failed
+        return false;
     }
 }
 ?>

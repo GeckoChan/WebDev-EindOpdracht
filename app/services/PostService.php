@@ -3,9 +3,9 @@ namespace app\services;
 use app\repositories\PostRepository;
 
 class PostService {
-    public function getAll(){
+    public function getAllPosts(){
         $postRepository = new PostRepository();
-        $posts = $postRepository->getAll();
+        $posts = $postRepository->getAllPosts();
         return $posts;
     }
 

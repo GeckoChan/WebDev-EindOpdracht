@@ -22,10 +22,19 @@ TODO List + Order
 
 6. Create Friendlist functionality
     Create friendrequest with Username+Account_Id               ✔
-    Read friendrequest from target User+Account_Id
-    Read all Friends                            
+    Read friendrequest from target User+Account_Id              ✔
+    Accept friendrequests                                       ✔
+    Read all Friends                                            ✔
+    Fix bug, where already added friends can be added again
 
-7. Get CRUD for posts working                                   
+7. Get CRUD for posts working
+    CRUD
+        CREATE
+        READ                                                    ✔
+        UPDATE
+        DELETE                                                  
+    Update pattern router?
+    Click on individual posts                                    
 
 8. Get CRUD for reactions working (similar to posts)            
 
@@ -34,4 +43,3 @@ TODO List + Order
 10. Give the website a nice and consistent appearance           
 
 11. Finishing Touches    
-    change location of router file?                                       

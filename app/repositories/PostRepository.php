@@ -1,15 +1,35 @@
 <?php
 namespace app\repositories;
 use app\models\Post;
+use app\models\Account;
 
 class PostRepository extends Repository{
-    function getAll() {
-        $stmt = $this->connection->prepare("SELECT * FROM posts");
+    function getAllPosts() {
+        $stmt = $this->connection->prepare("SELECT posts.*, accounts.username
+                                            FROM posts
+                                            INNER JOIN accounts ON posts.created_by = accounts.account_id");
         $stmt->execute();
+    
+        $postsData = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $posts = [];
+    
+        foreach ($postsData as $postData) {
+            $post = new Post();
+            $post->setPostId($postData['post_id']);
 
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, Post::class);
-        $posts = $stmt->fetchAll();
+            $account = new Account();
+            $account->setAccountId($postData['created_by']);
+            $account->setUsername($postData['username']);
+            $post->setCreatedBy($account);
 
+            $post->setParentPostId($postData['parent_post_id']);
+            $post->setCreatedAt(new \DateTime($postData['created_at']));
+            $post->setContent($postData['post_content']);
+            
+    
+            $posts[] = $post;
+        }
+    
         return $posts;
     }
 

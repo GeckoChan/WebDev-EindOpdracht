@@ -9,23 +9,25 @@
 
 <body>
     <main>
-            <header class="d-flex justify-content-center py-3 bg-dark">
-                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="/">Home</a>
-                            </li>
+        <header class="d-flex justify-content-center py-3 bg-dark position-fixed w-100" style="height: 10vh;">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <?php if (isset($_SESSION['account_id'])): ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="/accounts">Accounts</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/login">Login</a>
+                                <a class="nav-link" href="/myaccount">My Account</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/account">My Account</a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-            </header>
+                        <?php endif; ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Login</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>

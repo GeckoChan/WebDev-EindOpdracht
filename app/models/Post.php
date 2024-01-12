@@ -5,7 +5,7 @@ class Post implements \JsonSerializable {
     
     private int $post_id;
     private Account $created_by;
-    private ?Post $parent_post_id;
+    private ?int $parent_post_id;
     private \datetime $created_at;
     private string $content;
 
@@ -13,12 +13,8 @@ class Post implements \JsonSerializable {
         return get_object_vars($this);
     }
 
-    public function construct(int $post_id, Account $created_by, ?Post $parent_post_id, \datetime $created_at, string $content) {
-        $this->post_id = $post_id;
-        $this->created_by = $created_by;
-        $this->parent_post_id = $parent_post_id;
-        $this->created_at = $created_at;
-        $this->content = $content;
+    public function __construct() {
+        
     }
 
     // getters
@@ -29,7 +25,7 @@ class Post implements \JsonSerializable {
     public function getCreatedBy() : Account {
         return $this->created_by;
     }
-    public function getParentPostId() : ?Post {
+    public function getParentPostId() : ?int {
         return $this->parent_post_id;
     }
     public function getCreatedAt() : \datetime {
@@ -47,7 +43,7 @@ class Post implements \JsonSerializable {
     public function setCreatedBy(Account $created_by) {
         $this->created_by = $created_by;
     }
-    public function setParentPostId(?Post $parent_post_id) {
+    public function setParentPostId(?int $parent_post_id) {
         $this->parent_post_id = $parent_post_id;
     }
     public function setCreatedAt(\datetime $created_at) {

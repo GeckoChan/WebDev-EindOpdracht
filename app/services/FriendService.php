@@ -35,6 +35,18 @@ class FriendService {
         $friends = $friendRepository->getFriendRequests($account_id);
         return $friends;
     }
+
+    public function getFriends($account_id){
+        $friendRepository = new FriendRepository();
+        $friends = $friendRepository->getFriends($account_id);
+        return $friends;
+    }
+
+    public function acceptFriendRequest($account1_id, $account2_id){
+        $friendRepository = new FriendRepository();
+        $result = $friendRepository->acceptFriendRequest($account1_id, $account2_id);
+        return $result;
+    }
 }
 
 ?>
