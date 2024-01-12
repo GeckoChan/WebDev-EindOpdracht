@@ -33,13 +33,18 @@ class PostRepository extends Repository{
         return $posts;
     }
 
-    function insert($post){
-        $stmt = $this->connection->prepare("INSERT INTO posts (account_id, content, date) VALUES (:account_id, :content, :date)");
+    function insertPost($post){
+        $stmt = $this->connection->prepare("INSERT INTO posts (created_by , post_content) VALUES (:account_id, :content)");
         $stmt->execute([
-            'account_id' => $post->getAccountId(),
+            'account_id' => $post->getCreatedBy()->getAccountId(),
             'content' => $post->getContent(),
-            'date' => $post->getDate()
         ]);
+
+        if ($stmt->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     function remove($post_id){
@@ -47,10 +52,16 @@ class PostRepository extends Repository{
         $stmt->execute([
             'post_id' => $post_id
         ]);
+        if ($stmt->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+        
     }
 
     function update($post){
-        $stmt = $this->connection->prepare("UPDATE posts SET account_id = :account_id, content = :content, date = :date WHERE post_id = :post_id");
+        $stmt = $this->connection->prepare("UPDATE posts SET created_by = :account_id, post_content = :content, date = :date WHERE post_id = :post_id");
         $stmt->execute([
             'post_id' => $post->getPostId(),
             'account_id' => $post->getAccountId(),

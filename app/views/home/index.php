@@ -9,31 +9,21 @@ include __DIR__ . '/../header.php';
     </div>
 </div>
 
-<div id="overal-Container" style="position: relative; height: 100vh; top: 20vh;" >
-    <div id="readPost-Container" style="position: fixed; height: 55%; overflow-y: auto;">
+<div id="overal-Container" style="position: relative; top: 20vh;">
+    <div id="readPost-Container" class="d-flex align-items-center text-light" style="flex-direction: column; max-height: 55vh; overflow-y: auto;" >
     </div>
     <div id="writePost-Container" class="w-100 position-fixed bottom-0 d-flex justify-content-center align-items-end">
         <div class="post-input-container w-50 p-3 bg-dark rounded">
             <textarea id="postTextarea" class="form-control" rows="5" placeholder="What's happening?" style="resize: none;" maxlength="2000" oninput="updateCounter()"></textarea>
             <div id="counter" class="text-light">0 / 2000</div>
-            <button class="btn btn-primary mt-2">Post</button>
+            <button class="btn btn-primary mt-2" onclick="createPost()">Post</button>
         </div>
     </div>
 </div>
 
-<style>
-    #readPost-Container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-y: auto;
-    height: 75vh;
-    padding-top: 3%;
-}
-</style>
-
 <script>    
 var globalAccount = null;
+var globalFriendPosts = false;
 
 fetch('/api/session', {
         method: 'GET',
@@ -63,7 +53,10 @@ function createPost() {
         },
         body: JSON.stringify(post)
     })
-    .then(response => response.json())
+    .then(response => { 
+    response.clone().text().then(text => console.log("response createPost = " + text)); // debug
+    return response.json();
+    })
     .then(post => {
         textarea.value = '';
         updateCounter();
@@ -71,6 +64,28 @@ function createPost() {
     })
     .catch(error => console.log(error));
 
+}
+
+function deletePost(post_id) {
+    var post = {
+        post_id: post_id
+    };
+
+    fetch('/api/deletepost', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+        },
+        body: JSON.stringify(post)
+    })
+    .then(response => { 
+    response.clone().text().then(text => console.log("response deletePost = " + text)); // debug
+    return response.json();
+    })
+    .then(post => {
+        fetchAllPosts();
+    })
+    .catch(error => console.log(error));
 }
 
 function fetchAllPosts() {
@@ -92,13 +107,19 @@ function fetchAllPosts() {
 
 function displayPosts(posts){
     var readPostContainer = document.getElementById('readPost-Container');
-    readPostContainer.className = '';
-    readPostContainer.className = 'container-fluid d-flex justify-content-center align-items-center text-light';
     readPostContainer.innerHTML = '';
+
+    // sort posts by date descending
+    posts.sort((a, b) => {
+        let dateA = new Date(a.created_at.date);
+        let dateB = new Date(b.created_at.date);
+        return dateB - dateA; // sort in descending order
+    });
+
     posts.forEach(post => {
         var postContainer = document.createElement('div');
         postContainer.className = 'post-container w-50 p-3 bg-dark rounded';
-        postContainer.style = 'margin-bottom: 1rem;';
+        postContainer.style = 'margin-top: 1rem;';
         let createdAt = new Date(post.created_at.date);
         let formattedDate = createdAt.toLocaleDateString() + ' ' + createdAt.toLocaleTimeString();
 
@@ -109,8 +130,27 @@ function displayPosts(posts){
             </div>
             <div class="post-content">${post.content}</div>
         `;
+
+        if(post.created_by.account_id == globalAccount.account_id){
+            postContainer.innerHTML += `
+                <div class="post-footer d-flex justify-content-end">
+                    <button class="btn btn-danger" onclick="deletePost(${post.post_id})">Delete</button>
+                </div>
+            `;
+        }
         readPostContainer.appendChild(postContainer);
     });
+    
+    var endOfPosts = document.createElement('div');
+    endOfPosts.className = 'post-container w-50 p-3 bg-dark rounded';
+    endOfPosts.style = 'margin-top: 1rem;';
+    endOfPosts.innerHTML = `
+        <div class="post-header d-flex justify-content-center">
+            <div>Sorry no more posts :(</div>
+        </div>
+    `;
+    readPostContainer.appendChild(endOfPosts);
+
 }
 
 function updateCounter() {

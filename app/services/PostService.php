@@ -9,14 +9,14 @@ class PostService {
         return $posts;
     }
 
-    public function insert($post){
+    public function insertPost($post){
         $postRepository = new PostRepository();
-        $postRepository->insert($post);
+        return $postRepository->insertPost($post);
     }
 
     public function remove($post_id){
         $postRepository = new PostRepository();
-        $postRepository->remove($post_id);
+        return $postRepository->remove($post_id);
     }
 
     public function update($post){

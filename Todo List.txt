@@ -29,10 +29,9 @@ TODO List + Order
 
 7. Get CRUD for posts working
     CRUD
-        CREATE
+        CREATE                                                  ✔
         READ                                                    ✔
-        UPDATE
-        DELETE                                                  
+        DELETE                                                  ✔                                             
     Update pattern router?
     Click on individual posts                                    
 
