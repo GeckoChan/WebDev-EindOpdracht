@@ -21,6 +21,17 @@ include __DIR__ . '/../header.php';
     </div>
 </div>
 
+<style>
+    .post-link {
+            color: inherit;
+            text-decoration: none;
+        }
+
+    .post-link:hover {
+        color: your-hover-color-here;
+    }
+</style>
+
 <script>    
 var globalAccount = null;
 var globalFriendPosts = false;
@@ -40,6 +51,20 @@ fetch('/api/session', {
         fetchAllPosts();
     }
 });
+
+function showAllPost() {
+    if (globalFriendPosts == true) {
+        globalFriendPosts = false;
+        fetchAllPosts();
+    }
+}
+
+function showFriendsPost() {
+    if (globalFriendPosts == false) {
+        globalFriendPosts = true;
+        fetchAllFriendPosts();
+    }
+}
 
 function createPost() {
     var textarea = document.getElementById('postTextarea');
@@ -92,7 +117,26 @@ function fetchAllPosts() {
     fetch('/api/getposts', {
         method: 'GET',
         headers: {
-            'Content-Type': 'application/json; charset=utf-8'
+            'Content-Type': 'application/json; charset=utf-8',
+            'X-Custom-Header': 'FetchAllPosts'
+        }
+    })
+    .then(response => { 
+    response.clone().text().then(text => console.log("response fetchAllPosts = " + text)); // debug
+    return response.json();
+    })
+    .then(posts => {
+        displayPosts(posts);
+    })
+    .catch(error => console.log(error));
+}
+
+function fetchAllFriendPosts() {
+    fetch('/api/getposts', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            'X-Custom-Header': 'FetchAllFriendPosts'
         }
     })
     .then(response => { 
@@ -124,11 +168,13 @@ function displayPosts(posts){
         let formattedDate = createdAt.toLocaleDateString() + ' ' + createdAt.toLocaleTimeString();
 
         postContainer.innerHTML = `
-            <div class="post-header d-flex justify-content-between">
-                <div class="post-username">${post.created_by.username}#${post.created_by.account_id}</div>
-                <div class="post-date">${formattedDate}</div>
-            </div>
-            <div class="post-content">${post.content}</div>
+            <a class="post-link" href="/post?post_id=${post.post_id}">
+                <div class="post-header d-flex justify-content-between">
+                    <div class="post-username">${post.created_by.username}#${post.created_by.account_id}</div>
+                    <div class="post-date">${formattedDate}</div>
+                </div>
+                <div class="post-content">${post.content}</div>
+            </a>
         `;
 
         if(post.created_by.account_id == globalAccount.account_id){

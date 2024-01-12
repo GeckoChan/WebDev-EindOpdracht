@@ -87,9 +87,10 @@ class FriendRepository extends Repository{
 
     function getFriends($account_id){
         $stmt = $this->connection->prepare("SELECT accounts.account_id, accounts.username, accounts.email FROM accounts 
-                                            inner JOIN friends ON friends.account1_id = accounts.account_id 
-                                            WHERE friends.account2_id = :account_id
-                                            AND friends.status = :status; ");
+                                            INNER JOIN friends ON (friends.account1_id = accounts.account_id OR friends.account2_id = accounts.account_id)
+                                            WHERE (friends.account1_id = :account_id OR friends.account2_id = :account_id)
+                                            AND friends.status = :status
+                                            AND accounts.account_id != :account_id");
         $stmt->execute([
             'account_id' => $account_id,
             'status' => "accepted"

@@ -27,18 +27,19 @@ TODO List + Order
     Read all Friends                                            ✔
     Fix bug, where already added friends can be added again
 
-7. Get CRUD for posts working
-    CRUD
+7. Get CRD for posts working                                    ✔
+    CRD                                                         ✔
         CREATE                                                  ✔
         READ                                                    ✔
-        DELETE                                                  ✔                                             
-    Update pattern router?
-    Click on individual posts                                    
+        DELETE                                                  ✔
+    Show friendPosts                                            ✔                                    
+    Click on individual posts                                   ✔                                                                
 
 8. Get CRUD for reactions working (similar to posts)            
 
 9. Like posts AND reactions                                     
 
-10. Give the website a nice and consistent appearance           
+10. Give the website a nice and consistent appearance   
+    Create an actual css file lmao        
 
 11. Finishing Touches    

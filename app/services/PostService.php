@@ -9,6 +9,18 @@ class PostService {
         return $posts;
     }
 
+    public function getAllFriendPosts($account_id){
+        $postRepository = new PostRepository();
+        $posts = $postRepository->getAllFriendPosts($account_id);
+        return $posts;
+    }
+
+    public function getPostById($post_id){
+        $postRepository = new PostRepository();
+        $post = $postRepository->getPostById($post_id);
+        return $post;
+    }
+
     public function insertPost($post){
         $postRepository = new PostRepository();
         return $postRepository->insertPost($post);

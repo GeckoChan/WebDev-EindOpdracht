@@ -14,20 +14,46 @@ class PostRepository extends Repository{
         $posts = [];
     
         foreach ($postsData as $postData) {
-            $post = new Post();
-            $post->setPostId($postData['post_id']);
-
-            $account = new Account();
-            $account->setAccountId($postData['created_by']);
-            $account->setUsername($postData['username']);
-            $post->setCreatedBy($account);
-
-            $post->setParentPostId($postData['parent_post_id']);
-            $post->setCreatedAt(new \DateTime($postData['created_at']));
-            $post->setContent($postData['post_content']);
-            
+            $posts[] = $this->createPostObject($postData); // i hate php, instead of doing += on the array = is enough >:(
+        }
     
-            $posts[] = $post;
+        return $posts;
+    }
+
+    function getAllFriendPosts($account_id) {
+        $stmt = $this->connection->prepare("SELECT posts.*, accounts.username
+                                            FROM posts
+                                            INNER JOIN accounts ON posts.created_by = accounts.account_id
+                                            WHERE (posts.created_by IN (SELECT account2_id FROM friends WHERE account1_id = :account_id AND status = 'accepted'))
+                                            OR (posts.created_by IN (SELECT account1_id FROM friends WHERE account2_id = :account_id AND status = 'accepted'))");
+        $stmt->execute([
+            'account_id' => $account_id
+        ]);
+
+        $postsData = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $posts = [];
+    
+        foreach ($postsData as $postData) {
+            $posts[] = $this->createPostObject($postData);
+        }
+    
+        return $posts;
+    }
+
+    function getPostById($post_id){
+        $stmt = $this->connection->prepare("SELECT posts.*, accounts.username
+                                            FROM posts
+                                            INNER JOIN accounts ON posts.created_by = accounts.account_id
+                                            WHERE post_id = :post_id");
+        $stmt->execute([
+            'post_id' => $post_id
+        ]);
+    
+        $postsData = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $posts = [];
+    
+        foreach ($postsData as $postData) {
+            $posts[] = $this->createPostObject($postData);
         }
     
         return $posts;
@@ -69,6 +95,21 @@ class PostRepository extends Repository{
             'date' => $post->getDate()
         ]);
     }
+
+    private function createPostObject($postData){
+        $post = new Post();
+        $post->setPostId($postData['post_id']);
+
+        $account = new Account();
+        $account->setAccountId($postData['created_by']);
+        $account->setUsername($postData['username']);
+        $post->setCreatedBy($account);
+
+        $post->setParentPostId($postData['parent_post_id']);
+        $post->setCreatedAt(new \DateTime($postData['created_at']));
+        $post->setContent($postData['post_content']);
+        return $post;
+    } 
 }
 
 ?>

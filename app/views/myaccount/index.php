@@ -2,7 +2,7 @@
 include __DIR__ . '/../header.php';
 ?>
 
-<div id="overal-Container" class="container-fluid row">
+<div id="overal-Container" class="container-fluid row" style="position: relative; top: 10vh;">
     <div id="myAccountContainer" class="col-md-10">
     </div>
     <div id="myFriendsContainer" class="col-md-2">
@@ -69,7 +69,7 @@ function fetchFriends() {
     })
     .then(friends => {
         displayFriends(friends);
-    });
+    })
     .catch(error => console.log(error));
 }
 
@@ -83,7 +83,7 @@ function displayFriends(friends) {
     }
 
     friends.forEach(friend => {
-        myFriendsContainer.innerHTML += `<p>${friend.username}</p><br>`;
+        myFriendsContainer.innerHTML += `<p>${friend.username}#${friend.account_id}</p><br>`;
     });
 }
 

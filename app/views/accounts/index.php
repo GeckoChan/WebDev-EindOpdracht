@@ -2,6 +2,9 @@
 include __DIR__ . '/../header.php';
 ?>
 
+<div id="overal-container" class="container-fluid row m-0 p-0" style="position: relative; top: 10vh;">
+</div>
+
 <script>
     var globalAccount = null;
 
@@ -27,9 +30,7 @@ include __DIR__ . '/../header.php';
     });
 
     function createContainers() {
-        var overallContainer = document.createElement('div');
-        overallContainer.id = 'overal-container';
-        overallContainer.className = 'container-fluid row m-0 p-0';
+        var overallContainer = document.getElementById('overal-container');
 
         var accountsContainer = document.createElement('div');
         accountsContainer.id = 'accounts-container';
