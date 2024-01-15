@@ -5,36 +5,30 @@ class GetPostsController{
     public function index(){
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $postService = new PostService();
-
-            if($_SERVER['HTTP_X_CUSTOM_HEADER'] == 'FetchAllPosts'){
-                $posts = $postService->getAllPosts();
-                if ($posts){
-                    echo json_encode($posts);
-                } else {
-                    echo json_encode(null);
-                }
-            } else if ($_SERVER['HTTP_X_CUSTOM_HEADER'] == 'FetchAllFriendPosts'){
-                $posts = $postService->getAllFriendPosts($_SESSION['account_id']);
-                if ($posts){
-                    echo json_encode($posts);
-                } else {
-                    echo json_encode(null);
-                }
-            } else if ($_SERVER['HTTP_X_CUSTOM_HEADER'] == 'FetchPostById'){
-                $post_id = $_GET['post_id'];
-                $post = $postService->getPostById($post_id);
-                if ($post){
-                    echo json_encode($post);
-                } else {
-                    echo json_encode(null);
-                }
-            } else {
-                echo json_encode(null);
+            $response = null;
+            switch ($_SERVER['HTTP_X_CUSTOM_HEADER']) {
+                case 'FetchAllPosts':
+                    $response = $postService->getAllPosts();
+                    break;
+                case 'FetchAllFriendPosts':
+                    $response = $postService->getAllFriendPosts($_SESSION['account_id']);
+                    break;
+                case 'FetchPostById':
+                    $post_id = $_GET['post_id'];
+                    $response = $postService->getPostById($post_id);
+                    break;
+                case 'FetchReactionsForPost':
+                    $parent_post_id = $_GET['post_id'];
+                    $response = $postService->getReactionsForPost($parent_post_id);
+                    break;
+                default:
+                    break;
             }
 
+            echo json_encode($response);
         } 
-
     }
 }
-
 ?>
+
+           

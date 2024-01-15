@@ -8,7 +8,7 @@ TODO List + Order
     Design ERD                                                  ✔
     Setup ERD                                                   ✔                                  
 
-4. Create easily reapplicable template for CRUD functionality   ✔
+4. Create easily reapplicable template for CRUD functionality   ✔ (never do this again just make the repositories as u need it)
     Add all models                                              ✔
     Create                                                      ✔
     Read                                                        ✔ 
@@ -20,12 +20,12 @@ TODO List + Order
         Password hashing                                        ✔
     Stay logged in during session                               ✔                                        
 
-6. Create Friendlist functionality
+6. Create Friendlist functionality                              ✔
     Create friendrequest with Username+Account_Id               ✔
     Read friendrequest from target User+Account_Id              ✔
     Accept friendrequests                                       ✔
     Read all Friends                                            ✔
-    Fix bug, where already added friends can be added again
+    Fix bug, where already added friends can be added again     ✔
 
 7. Get CRD for posts working                                    ✔
     CRD                                                         ✔
@@ -35,11 +35,17 @@ TODO List + Order
     Show friendPosts                                            ✔                                    
     Click on individual posts                                   ✔                                                                
 
-8. Get CRUD for reactions working (similar to posts)            
+8. Get CRUD for reactions working (similar to posts)
+    CRD                                                         ✔
+        CREATE                                                  ✔
+        READ                                                    ✔
+        DELETE                                                  ✔                
 
 9. Like posts AND reactions                                     
 
 10. Give the website a nice and consistent appearance   
-    Create an actual css file lmao        
+    Create an actual css file lmao
+    Make the website adaptive to diffrent srceen sizes       
 
-11. Finishing Touches    
+11. Finishing Touches
+    remove duplicate code

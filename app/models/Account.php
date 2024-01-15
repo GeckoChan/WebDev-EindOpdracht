@@ -19,16 +19,16 @@ class Account implements \JsonSerializable
 
     }
 
-    // work around for not being able to have multiple constructors :)
-    public function WithAllData(int $account_id, string $username, string $password, string $email)
-    {
-        $instance = new self();
-        $instance->account_id = $account_id;
-        $instance->username = $username;
-        $instance->password = $password;
-        $instance->email = $email;
-        return $instance;
-    }
+    // // work around for not being able to have multiple constructors :)
+    // public function WithAllData(int $account_id, string $username, string $password, string $email)
+    // {
+    //     $instance = new self();
+    //     $instance->account_id = $account_id;
+    //     $instance->username = $username;
+    //     $instance->password = $password;
+    //     $instance->email = $email;
+    //     return $instance;
+    // }
 
     // getters
 
@@ -48,6 +48,7 @@ class Account implements \JsonSerializable
     {
         return $this->email;
     }
+    
 
     // setters
 
@@ -67,7 +68,7 @@ class Account implements \JsonSerializable
     {
         $this->email = $email;
     }
-
+    
 
 }
 

@@ -8,6 +8,8 @@ class Post implements \JsonSerializable {
     private ?int $parent_post_id;
     private \datetime $created_at;
     private string $content;
+    private int $likes;
+
 
     public function jsonSerialize() : mixed {
         return get_object_vars($this);
@@ -34,6 +36,9 @@ class Post implements \JsonSerializable {
     public function getContent() : string {
         return $this->content;
     }
+    public function getLikes() : int {
+        return $this->likes;
+    }
 
     // setters
 
@@ -51,5 +56,8 @@ class Post implements \JsonSerializable {
     }
     public function setContent(string $content) {
         $this->content = $content;
+    }
+    public function setLikes(int $likes) {
+        $this->likes = $likes;
     }
 }

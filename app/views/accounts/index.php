@@ -100,7 +100,7 @@ include __DIR__ . '/../header.php';
                 if (response) {
                     alert('Friend request send');
                 } else {
-                    alert('Already existing pending friend request!');
+                    alert('Already existing pending friend request or already friends!');
                 }
             })
             .catch(error => console.error(error));

@@ -8,21 +8,28 @@ class CreatePostController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $postService = new PostService();
             $post = new Post();
-            
             $json = file_get_contents('php://input');
             $data = json_decode($json);
+            
             $post->setContent($data->content);
 
             $account = new Account();
             $account->setAccountId($_SESSION['account_id']);
             $post->setCreatedBy($account);
 
-
-            if ($postService->insertPost($post)){
-                echo json_encode(true);
-            } else {
-                echo json_encode(null);
+            $response = null;
+            switch ($_SERVER['HTTP_X_CUSTOM_HEADER']) {
+                case 'CreatePost':
+                    $response = $postService->insertPost($post) ? true : null;
+                    break;
+                case 'CreateReaction':
+                    $post->setParentPostId($data->parent_post_id);
+                    $response = $postService->insertReaction($post) ? true : null;
+                    break;
+                default:
+                    break;
             }
+            echo json_encode($response);
         }
     }    
 }

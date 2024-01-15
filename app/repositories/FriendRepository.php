@@ -43,22 +43,20 @@ class FriendRepository extends Repository{
 
     function checkIfExist($account1_id, $account2_id){
         // check both ways
-        $stmt = $this->connection->prepare("SELECT * FROM friends WHERE account1_id = :account1_id AND account2_id = :account2_id AND status = :status");
+        $stmt = $this->connection->prepare("SELECT * FROM friends WHERE account1_id = :account1_id AND account2_id = :account2_id");
         $stmt->execute([
             'account1_id' => $account1_id,
             'account2_id' => $account2_id,
-            'status' => "pending"
         ]);
         $result = $stmt->fetch();
         if ($result) {
             return true;
         }
 
-        $stmt = $this->connection->prepare("SELECT * FROM friends WHERE account1_id = :account1_id AND account2_id = :account2_id AND status = :status");
+        $stmt = $this->connection->prepare("SELECT * FROM friends WHERE account1_id = :account1_id AND account2_id = :account2_id");
         $stmt->execute([
             'account1_id' => $account2_id,
             'account2_id' => $account1_id,
-            'status' => "pending"
         ]);
         $result = $stmt->fetch();
         if ($result) {

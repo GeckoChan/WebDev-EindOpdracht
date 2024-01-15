@@ -21,9 +21,20 @@ class PostService {
         return $post;
     }
 
+    public function getReactionsForPost($parent_post_id){
+        $postRepository = new PostRepository();
+        $reactions = $postRepository->getReactionsForPost($parent_post_id);
+        return $reactions;
+    }
+
     public function insertPost($post){
         $postRepository = new PostRepository();
         return $postRepository->insertPost($post);
+    }
+
+    public function insertReaction($post){
+        $postRepository = new PostRepository();
+        return $postRepository->insertReaction($post);
     }
 
     public function remove($post_id){
