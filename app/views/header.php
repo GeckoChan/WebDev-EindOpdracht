@@ -25,9 +25,11 @@
                                 <a class="nav-link" href="/myaccount">My Account</a>
                             </li>
                         <?php endif; ?>
+                        <?php if (!isset($_SESSION['account_id'])): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/login">Login</a>
                         </li>
+                        <?php endif; ?>
                     </ul>
                 </div>
             </nav>

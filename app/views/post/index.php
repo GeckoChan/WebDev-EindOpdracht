@@ -26,7 +26,7 @@ include __DIR__ . '/../header.php';
 </style>
 
 <script>
-var globalAccount = null;
+let globalAccount = null;
 const urlParams = new URLSearchParams(window.location.search);
 const postId = urlParams.get('post_id');
 
@@ -62,8 +62,8 @@ function fetchPostById(){
 }
 
 function displayPost(post) {
-    var container = document.getElementById('parentPost-Container');
-    var postContainer = document.createElement('div');
+    const container = document.getElementById('parentPost-Container');
+    const postContainer = document.createElement('div');
     postContainer.className = 'post-container p-3 bg-dark rounded text-light';
     postContainer.style = 'margin-left: 1%; margin-right: 1%;';
     let createdAt = new Date(post.created_at.date);
@@ -96,12 +96,12 @@ function displayPost(post) {
 }
 
 function createReaction() {
-    var textarea = document.getElementById('postTextarea');
+    const textarea = document.getElementById('postTextarea');
     if (textarea.value.trim() === "") {
         return;
     }
     
-    var post = {
+    const post = {
         content: textarea.value,
         parent_post_id: postId
     };
@@ -147,7 +147,7 @@ function FetchReactionsForPost() {
 }
 
 function displayReactions(posts) {
-    var container = document.getElementById('reactions-Container');
+    const container = document.getElementById('reactions-Container');
     container.innerHTML = '';
 
     posts.sort((a, b) => {
@@ -157,7 +157,7 @@ function displayReactions(posts) {
     });
 
     posts.forEach(post => {
-        var postContainer = document.createElement('div');
+        const postContainer = document.createElement('div');
         postContainer.className = 'post-container p-3 bg-dark rounded text-light w-75';
         postContainer.style = 'margin-right: 1%; margin-bottom: 1%;';
         let createdAt = new Date(post.created_at.date);
@@ -218,7 +218,7 @@ function deletePost(post_id) {
 }
 
 function likePost(post_id) {
-    var post = {
+    const post = {
         post_id: post_id
     };
 
@@ -234,7 +234,7 @@ function likePost(post_id) {
     return response.json();
     })
     .then(response => {
-        var likeCounter = document.getElementById(`likeCounter_${post_id}`);
+        const likeCounter = document.getElementById(`likeCounter_${post_id}`);
         likeCounter.textContent = response + ' Like(s)';
 
     })
@@ -243,8 +243,8 @@ function likePost(post_id) {
 }
 
 function updateCounter() {
-    var textarea = document.getElementById('postTextarea');
-    var counter = document.getElementById('counter');
+    const textarea = document.getElementById('postTextarea');
+    const counter = document.getElementById('counter');
     counter.textContent = textarea.value.length + ' / 2000';
 }
 

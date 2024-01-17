@@ -33,8 +33,8 @@ include __DIR__ . '/../header.php';
 </style>
 
 <script>    
-var globalAccount = null;
-var globalFriendPosts = false;
+let globalAccount = null;
+let globalFriendPosts = false;
 
 fetch('/api/session', {
         method: 'GET',
@@ -68,11 +68,11 @@ function showFriendsPost() {
 
 function createPost() {
     
-    var textarea = document.getElementById('postTextarea');
+    const textarea = document.getElementById('postTextarea');
     if (textarea.value.trim() === "") {
         return;
     }
-    var post = {
+    const post = {
         content: textarea.value
     };
     fetch('/api/createpost', {
@@ -97,7 +97,7 @@ function createPost() {
 }
 
 function deletePost(post_id) {
-    var post = {
+    const post = {
         post_id: post_id
     };
 
@@ -119,7 +119,7 @@ function deletePost(post_id) {
 }
 
 function likePost(post_id) {
-    var post = {
+    const post = {
         post_id: post_id
         
     };
@@ -136,7 +136,7 @@ function likePost(post_id) {
     return response.json();
     })
     .then(response => {
-        var likeCounter = document.getElementById(`likeCounter_${post_id}`);
+        let likeCounter = document.getElementById(`likeCounter_${post_id}`);
         likeCounter.textContent = response + ' Like(s)';
 
     })
@@ -181,7 +181,7 @@ function fetchAllFriendPosts() {
 }
 
 function displayPosts(posts){
-    var readPostContainer = document.getElementById('readPost-Container');
+    const readPostContainer = document.getElementById('readPost-Container');
     readPostContainer.innerHTML = '';
 
     posts.sort((a, b) => {
@@ -191,7 +191,7 @@ function displayPosts(posts){
     });
 
     posts.forEach(post => {
-        var postContainer = document.createElement('div');
+        const postContainer = document.createElement('div');
         postContainer.className = 'post-container w-50 p-3 bg-dark rounded';
         postContainer.style = 'margin-top: 1rem;';
         let createdAt = new Date(post.created_at.date);
@@ -232,7 +232,7 @@ function displayPosts(posts){
         readPostContainer.appendChild(postContainer);
     });
     
-    var endOfPosts = document.createElement('div');
+    const endOfPosts = document.createElement('div');
     endOfPosts.className = 'post-container w-50 p-3 bg-dark rounded';
     endOfPosts.style = 'margin-top: 1rem;';
     endOfPosts.innerHTML = `
@@ -245,13 +245,13 @@ function displayPosts(posts){
 }
 
 function updateCounter() {
-    var textarea = document.getElementById('postTextarea');
-    var counter = document.getElementById('counter');
+    const textarea = document.getElementById('postTextarea');
+    const counter = document.getElementById('counter');
     counter.textContent = textarea.value.length + ' / 2000';
 }
 
 function loggedOutElements() {
-    var readPostContainer = document.getElementById('readPost-Container');
+    const readPostContainer = document.getElementById('readPost-Container');
     readPostContainer.className = '';
     readPostContainer.className = 'container-fluid d-flex justify-content-center align-items-center';
     readPostContainer.innerHTML = '';

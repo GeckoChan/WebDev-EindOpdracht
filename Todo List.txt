@@ -47,8 +47,8 @@ TODO List + Order
     add update functionality to posts / accounts?               ✔
     put in restrictions                                         ✔
     remove My account functionality?                            ✔
-    remove friend functionality?
-    make code "safer" against malicious attacks 
+    remove friend functionality?                                ✔
+    make code "safer" against malicious attacks                 ✔
     remove duplicate code
 
 

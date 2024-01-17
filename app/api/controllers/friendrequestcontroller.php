@@ -2,7 +2,7 @@
 use app\services\FriendService;
 use app\services\AccountService;
 
-class AcceptFriendRequestController {
+class FriendRequestController {
 
     // var data = {
     //     target_account_id: account_id,
@@ -30,12 +30,29 @@ class AcceptFriendRequestController {
                 return;
             }
             
-            $result = $friendService->acceptFriendRequest($account1_id, $account2_id);
-            if($result){
-                echo json_encode($result);
-            }else{
-                echo json_encode(null);
+
+            switch ($_SERVER['HTTP_X_CUSTOM_HEADER']) {
+                case 'AcceptFriend':
+                    $result = $friendService->acceptFriendRequest($account1_id, $account2_id);
+                    if($result){
+                        echo json_encode($result);
+                    }else{
+                        echo json_encode(null);
+                    }
+                    break;
+                case 'DeclineFriend':
+                    $result = $friendService->declineFriendRequest($account1_id, $account2_id);
+                    if($result){
+                        echo json_encode($result);
+                    }else{
+                        echo json_encode(null);
+                    }
+                    break;
+                default:
+                    echo json_encode(null);
+                    break;
             }
+
         }
     }
 }

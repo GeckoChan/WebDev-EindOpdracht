@@ -39,7 +39,7 @@ include __DIR__ . '/../header.php';
 </div>
 
 <script>
-var globalAccount = null;
+let globalAccount = null;
 
 fetch('/api/session', {
         method: 'GET',
@@ -56,31 +56,31 @@ fetch('/api/session', {
     });
 
 function updateAccountView(){
-    var registrationH1 = document.getElementById('registrationH1');
+    const registrationH1 = document.getElementById('registrationH1');
     registrationH1.innerHTML = 'Update Account';
-    var formButton = document.getElementById('formButton');
+    const formButton = document.getElementById('formButton');
     formButton.innerHTML = 'Update';
     formButton.onclick = updateAccount;
 }
 
 function updateAccount(){
-    var registrationForm = document.getElementById('registrationForm');
+    const registrationForm = document.getElementById('registrationForm');
     if (!registrationForm.checkValidity()) {
         alert('Please fill out all fields correctly.');
         return;
     }
 
-    var username = document.getElementById('username').value;
-    var email = document.getElementById('email').value;
-    var password1 = document.getElementById('password1').value;
-    var password2 = document.getElementById('password2').value;
+    const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
+    const password1 = document.getElementById('password1').value;
+    const password2 = document.getElementById('password2').value;
 
 
     if (password1 !== password2){
         alert('Passwords do not match');
         return;
     }
-    var data = {
+    const data = {
         account_id: globalAccount.account_id,
         username: username,
         email: email,
@@ -113,22 +113,22 @@ function updateAccount(){
 }
 
 function registration(){
-    var registrationForm = document.getElementById('registrationForm');
+    const registrationForm = document.getElementById('registrationForm');
     if (!registrationForm.checkValidity()) {
         alert('Please fill out all fields correctly.');
         return;
     }
 
-    var username = document.getElementById('username').value;
-    var email = document.getElementById('email').value;
-    var password1 = document.getElementById('password1').value;
-    var password2 = document.getElementById('password2').value;
+    const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
+    const password1 = document.getElementById('password1').value;
+    const password2 = document.getElementById('password2').value;
 
     if (password1 !== password2){
         alert('Passwords do not match');
         return;
     }
-    var data = {
+    const data = {
         username: username,
         email: email,
         password1: password1,

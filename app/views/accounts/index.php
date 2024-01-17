@@ -27,7 +27,8 @@ include __DIR__ . '/../header.php';
             container.innerHTML = '<h1>You are not logged in!</h1>';
             document.body.appendChild(container);
         }
-    });
+    })
+    .catch(error => console.error(error));
 
     function createContainers() {
         var overallContainer = document.getElementById('overal-container');
@@ -57,18 +58,16 @@ include __DIR__ . '/../header.php';
             response.clone().text().then(text => console.log("response fetchAccounts = " + text)); // debug
             return response.json();
             })
-            .then(accounts => {
-                displayAccounts(accounts);
-            })
+            .then(accounts => {displayAccounts(accounts);})
             .catch(error => console.error(error));
     }
 
     function displayAccounts(accounts) {
-        var container = document.getElementById('accounts-container');
+        const container = document.getElementById('accounts-container');
         container.innerHTML = '<h1>Accounts</h1>';
 
         accounts.forEach(function(account) {
-            var accountDiv = document.createElement('div');
+            const accountDiv = document.createElement('div');
             accountDiv.className = 'border border-primary rounded p-2 m-2 bg-dark text-white';
             accountDiv.innerHTML = `<p>Tag: ${account.username}#${account.account_id} <br> Email: ${account.email}</p>`;
 
@@ -80,7 +79,7 @@ include __DIR__ . '/../header.php';
     }
 
     function addFriend(account_id) {
-        var data = {
+        const data = {
             target_account_id: account_id,
             current_account_id: globalAccount.account_id
         };
@@ -125,34 +124,36 @@ include __DIR__ . '/../header.php';
     }
 
     function displayFriendsRequests(friendrequests){
-        var container = document.getElementById('friendrequests-container');
+        const container = document.getElementById('friendrequests-container');
         container.innerHTML = '<h1>Friend Requests</h1>';
         if (friendrequests == null) {
             container.innerHTML += '<p>No friend requests</p>';
         } else {
             friendrequests.forEach(function(friendrequest) {
-                var friendrequestDiv = document.createElement('div');
+                const friendrequestDiv = document.createElement('div');
                 friendrequestDiv.id = friendrequest.account_id;
                 friendrequestDiv.className = 'border border-primary rounded p-2 m-2 bg-dark text-white';
-                friendrequestDiv.innerHTML = `<p>Tag: ${friendrequest.username}#${friendrequest.account_id} <br> Email: ${friendrequest.email}</p>`;
-                friendrequestDiv.innerHTML += `<button class="btn btn-primary" onclick="acceptFriend('${friendrequest.account_id}')">Accept Friend</button>`;
+                friendrequestDiv.innerHTML = `  <p>Tag: ${friendrequest.username}#${friendrequest.account_id} <br> Email: ${friendrequest.email}</p>
+                                                <button class="btn btn-primary" onclick="acceptFriend('${friendrequest.account_id}')">Accept Friend</button>
+                                                <button class="btn btn-danger" onclick="declineFriend('${friendrequest.account_id}')">Decline Friend</button>`;
                 container.appendChild(friendrequestDiv); 
             });
         }
     }
 
     function acceptFriend(account_id) {
-        var data = {
+        const data = {
             target_account_id: account_id,
             current_account_id: globalAccount.account_id
         };
 
         console.log(data);
 
-        fetch('/api/acceptfriendrequest', {
+        fetch('/api/friendrequest', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json; charset=utf-8'
+                    'Content-Type': 'application/json; charset=utf-8',
+                    'X-Custom-Header': 'AcceptFriend'
                 },
                 body: JSON.stringify(data)
             })
@@ -163,10 +164,40 @@ include __DIR__ . '/../header.php';
         .then(response => {
             if (response) {
                 alert('Friend request accepted');
-                var friendrequestDiv = document.getElementById(account_id);
+                const friendrequestDiv = document.getElementById(account_id);
                 friendrequestDiv.remove();   
             } else {
-                alert('Something went wrong!');
+                alert('Please retry again later');
+            }
+        })
+        .catch(error => console.error(error));
+    }
+
+    function declineFriend(account_id) {
+        const data = {
+            target_account_id: account_id,
+            current_account_id: globalAccount.account_id
+        };
+
+        fetch('/api/friendrequest', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8',
+                    'X-Custom-Header': 'DeclineFriend'             
+                },
+                body: JSON.stringify(data)
+            })
+        .then(response => { 
+            response.clone().text().then(text => console.log("response declineFriend = " + text)); // debug
+            return response.json();
+        })
+        .then(response => {
+            if (response) {
+                alert('Friend request declined');
+                const friendrequestDiv = document.getElementById(account_id);
+                friendrequestDiv.remove();   
+            } else {
+                alert('Please retry again later');
             }
         })
         .catch(error => console.error(error));

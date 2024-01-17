@@ -10,7 +10,7 @@ include __DIR__ . '/../header.php';
 </div>
 
 <script>
-var globalAccount = null;
+let globalAccount = null;
 
 fetch('/api/session', {
         method: 'GET',
@@ -29,7 +29,7 @@ fetch('/api/session', {
     });
 
 function addLoginElements(){
-    var loginContainer = document.getElementById('loginContainer');
+    const loginContainer = document.getElementById('loginContainer');
     loginContainer.innerHTML = '';
     loginContainer.innerHTML = `
         <form id="loginForm" method="POST">
@@ -44,8 +44,8 @@ function addLoginElements(){
     `;
 }
 
-function addLogoutElements(){
-    var loginContainer = document.getElementById('loginContainer');
+function addLogoutElements(){ // incase someone directly goes to the url /login while logged in
+    const loginContainer = document.getElementById('loginContainer');
     loginContainer.innerHTML = '';
     loginContainer.innerHTML = `
         <button class="btn btn-primary" onclick="logout()">Logout</button>
@@ -53,17 +53,17 @@ function addLogoutElements(){
 }
 
 function removeLoginElements(){
-    var loginForm = document.getElementById('loginForm');
+    const loginForm = document.getElementById('loginForm');
     loginForm.remove();
-    var loginButton = document.getElementById('loginButton');
+    const loginButton = document.getElementById('loginButton');
     loginButton.remove();
 }
 
 function login(){
-    var username = document.getElementById('username').value;
-    var password = document.getElementById('password').value;
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-    var data = {
+    const data = {
         username: username,
         password: password
     };
@@ -80,9 +80,7 @@ function login(){
     .then(response=> {
         console.log(response);
         if(response){
-            alert('Login successful');
-
-            var loginLink = document.querySelector('a[href="/login"]').parentElement;
+            const loginLink = document.querySelector('a[href="/login"]').parentElement;
             loginLink.insertAdjacentHTML('beforebegin', `
                 <li class="nav-item">
                     <a class="nav-link" href="/accounts">Accounts</a>
@@ -91,7 +89,8 @@ function login(){
                     <a class="nav-link" href="/myaccount">My Account</a>
                 </li>
             `);
-            addLogoutElements();
+            loginLink.remove();
+            window.location.href = '/myaccount';
         }else{
             alert('Invalid username or password');
         }
@@ -105,11 +104,12 @@ function logout(){
         method: 'POST',
     })
     .then(function() {
-        var accountsLink = document.querySelector('a[href="/accounts"]');
-        var myAccountLink = document.querySelector('a[href="/myaccount"]');
+        loggedOutElements();
+        const accountsLink = document.querySelector('a[href="/accounts"]');
+        const myAccountLink = document.querySelector('a[href="/myaccount"]');
         accountsLink.parentElement.remove();
         myAccountLink.parentElement.remove();
-        addLoginElements();
+        
     })
 }
 </script>

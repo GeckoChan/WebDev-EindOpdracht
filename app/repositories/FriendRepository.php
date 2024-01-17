@@ -24,11 +24,17 @@ class FriendRepository extends Repository{
         return $result;
     }
 
-    function remove($friend_id){
-        $stmt = $this->connection->prepare("DELETE FROM friends WHERE friend_id = :friend_id");
+    function declineFriendRequest($account1_id, $account2_id){
+        $stmt = $this->connection->prepare("DELETE FROM friends 
+                                            WHERE ((account1_id = :account1_id AND account2_id = :account2_id)
+                                            OR (account1_id = :account2_id AND account2_id = :account1_id))
+                                            AND status = :status");
         $stmt->execute([
-            'friend_id' => $friend_id
+            'account1_id' => $account1_id,
+            'account2_id' => $account2_id,
+            'status' => 'pending'
         ]);
+        return $stmt->rowCount() > 0;
     }
 
     function update($friend){
@@ -126,6 +132,18 @@ class FriendRepository extends Repository{
     
         // update failed
         return false;
+    }
+
+    function removeFriend($account1_id, $account2_id){
+        $stmt = $this->connection->prepare("DELETE FROM friends 
+                                            WHERE ((account1_id = :account1_id AND account2_id = :account2_id)
+                                            OR (account1_id = :account2_id AND account2_id = :account1_id))
+                                            AND status = :status");
+        return $stmt->execute([
+            'account1_id' => $account1_id,
+            'account2_id' => $account2_id,
+            'status' => 'accepted'
+        ]);
     }
 }
 ?>

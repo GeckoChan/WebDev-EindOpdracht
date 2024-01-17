@@ -11,7 +11,7 @@ include __DIR__ . '/../header.php';
 
 
 <script>
-var globalAccount = null;
+let globalAccount = null;
 
 fetch('/api/session', {
         method: 'GET',
@@ -31,23 +31,23 @@ fetch('/api/session', {
     });
 
 function loggedInElements() {
-    var myAccountContainer = document.getElementById('myAccountContainer');
+    const myAccountContainer = document.getElementById('myAccountContainer');
     myAccountContainer.innerHTML = '';
     myAccountContainer.innerHTML = `<h1>My Account</h1>
     <p>Username: ${globalAccount.username}</p>
     <p>Email: ${globalAccount.email}</p>
-    <button class="btn btn-primary" onclick="window.location.href = '/login'">Go to logout <i class="fas fa-sign-out-alt"></i></button>
+    <button class="btn btn-primary" onclick="logout()">Logout <i class="fas fa-sign-out-alt"></i></button>
     <button class="btn btn-primary" onclick="window.location.href = '/registration'">Update account info <i class="fas fa-edit"></i></button>
     <button class="btn btn-danger" onclick="deleteAccount()" >Delete Account <i class="fas fa-trash"></i></button>`;
 
-    var myFriendsContainer = document.getElementById('myFriendsContainer');
+    const myFriendsContainer = document.getElementById('myFriendsContainer');
     myFriendsContainer.innerHTML = '';
     myFriendsContainer.innerHTML = `<h1>My Friends</h1>`;
 
 }
 
 function loggedOutElements() {
-    var myAccountContainer = document.getElementById('myAccountContainer');
+    const myAccountContainer = document.getElementById('myAccountContainer');
     myAccountContainer.innerHTML = '';
     myAccountContainer.innerHTML = `<h1>You are not logged in!</h1>
     <button onclick="window.location.href = '/login'">Go to login</button>`;
@@ -77,7 +77,7 @@ function deleteAccount() {
 }
 
 function fetchFriends() {
-    var data = {
+    const data = {
         account_id: globalAccount.account_id
     }
     fetch('/api/friends', {
@@ -98,7 +98,7 @@ function fetchFriends() {
 }
 
 function displayFriends(friends) {
-    var myFriendsContainer = document.getElementById('myFriendsContainer');
+    const myFriendsContainer = document.getElementById('myFriendsContainer');
     myFriendsContainer.innerHTML = '<h1>My Friends</h1>';
 
     if (friends == null) {
@@ -106,9 +106,55 @@ function displayFriends(friends) {
         return;
     }
 
+    myFriendsContainer.innerHTML += `<p>You currently have ${friends.length} friend(s)</p>`;
     friends.forEach(friend => {
-        myFriendsContainer.innerHTML += `<p>${friend.username}#${friend.account_id}</p><br>`;
+        myFriendsContainer.innerHTML += `
+            <div id="friend#${friend.account_id}" class="friend-row" style="margin: 1%; display: flex; justify-content: space-between;">
+                <p style="display: flex; align-items: center;">${friend.username}#${friend.account_id}</p>
+                <button onclick="removeFriend(${friend.account_id})" class="btn btn-danger" style="display: flex; align-items: center;"><i class="fas fa-trash"></i></button>
+            </div>
+        `;
     });
+}
+
+function removeFriend(account_id) {
+    const data = {
+        target_account_id: account_id,
+        current_account_id: globalAccount.account_id
+    };
+    
+    fetch('/api/friends', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => { 
+    response.clone().text().then(text => console.log("response removeFriend = " + text)); // debug
+    return response.json();
+    })
+    .then(response => {
+        if (response) {
+            const friendElement = document.getElementById('friend#' + account_id);
+            if (friendElement) {
+                friendElement.remove();
+            }
+        } else {
+            alert('Please retry again later!');
+        }
+    })
+    .catch(error => console.log(error));
+}
+
+function logout(){
+
+    fetch('/api/logout', {
+        method: 'POST',
+    })
+    .then(function() {
+        window.location.href = '/login';
+    })
 }
 
 </script>
