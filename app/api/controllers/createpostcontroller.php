@@ -7,11 +7,17 @@ class CreatePostController {
     public function index(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $postService = new PostService();
-            $post = new Post();
             $json = file_get_contents('php://input');
             $data = json_decode($json);
             
-            $post->setContent($data->content);
+            if (!isset($data->content)) {
+                echo json_encode(null);
+                return;
+            }
+
+            $post = new Post();
+            $content = htmlspecialchars($data->content, ENT_QUOTES, 'UTF-8');
+            $post->setContent($content);
 
             $account = new Account();
             $account->setAccountId($_SESSION['account_id']);

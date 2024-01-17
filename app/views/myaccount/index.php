@@ -36,7 +36,9 @@ function loggedInElements() {
     myAccountContainer.innerHTML = `<h1>My Account</h1>
     <p>Username: ${globalAccount.username}</p>
     <p>Email: ${globalAccount.email}</p>
-    <button onclick="window.location.href = '/login'">Go to logout</button>`;
+    <button class="btn btn-primary" onclick="window.location.href = '/login'">Go to logout <i class="fas fa-sign-out-alt"></i></button>
+    <button class="btn btn-primary" onclick="window.location.href = '/registration'">Update account info <i class="fas fa-edit"></i></button>
+    <button class="btn btn-danger" onclick="deleteAccount()" >Delete Account <i class="fas fa-trash"></i></button>`;
 
     var myFriendsContainer = document.getElementById('myFriendsContainer');
     myFriendsContainer.innerHTML = '';
@@ -50,6 +52,28 @@ function loggedOutElements() {
     myAccountContainer.innerHTML = `<h1>You are not logged in!</h1>
     <button onclick="window.location.href = '/login'">Go to login</button>`;
 
+}
+
+function deleteAccount() {
+    fetch('/api/deleteaccount', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+        }
+    })
+    .then(response => { 
+        response.clone().text().then(text => console.log("response deleteAccount = " + text)); // debug
+        return response.json();
+    })
+    .then(response => {
+        if (response != null) {
+            alert('test');
+            //window.location.href = '/login'; 
+        } else {
+            alert('Please retry again later!');
+        }
+    })
+    .catch(error => console.log(error));
 }
 
 function fetchFriends() {

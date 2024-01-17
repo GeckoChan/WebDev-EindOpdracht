@@ -16,12 +16,12 @@ class AccountService {
 
     public function remove($account_id){
         $accountRepository = new AccountRepository();
-        $accountRepository->remove($account_id);
+        return $accountRepository->remove($account_id);
     }
 
-    public function update($account){
+    public function updateAccount($account){
         $accountRepository = new AccountRepository();
-        $accountRepository->update($account);
+        return $accountRepository->updateAccount($account);
     }
 
     public function checkIfExist($username, $password){

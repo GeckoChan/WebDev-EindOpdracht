@@ -88,12 +88,7 @@ class PostRepository extends Repository{
             'account_id' => $post->getCreatedBy()->getAccountId(),
             'content' => $post->getContent(),
         ]);
-
-        if ($stmt->rowCount() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return $stmt->rowCount() > 0;
     }
 
     function insertReaction($post){
@@ -103,12 +98,7 @@ class PostRepository extends Repository{
             'content' => $post->getContent(),
             'parent_post_id' => $post->getParentPostId()
         ]);
-
-        if ($stmt->rowCount() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return $stmt->rowCount() > 0;
     }
 
     function remove($post_id){
@@ -116,12 +106,7 @@ class PostRepository extends Repository{
         $stmt->execute([
             'post_id' => $post_id
         ]);
-        if ($stmt->rowCount() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-        
+        return $stmt->rowCount() > 0;
     }
 
     function update($post){

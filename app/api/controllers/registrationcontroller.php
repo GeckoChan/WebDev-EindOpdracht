@@ -10,8 +10,14 @@ class RegistrationController {
             $json = file_get_contents('php://input');
             $data = json_decode($json);
             
-            $username = $data->username;
-            $email = $data->email;
+            if(!isset($data->account_id, $data->username, $data->email, $data->password1, $data->password2)) {
+                echo json_encode(null);
+                return;
+            }
+
+            $username = htmlspecialchars($data->username, ENT_QUOTES, 'UTF-8');
+            $email = filter_var($data->email, FILTER_SANITIZE_EMAIL);
+
             $password1 = $data->password1;
             $password2 = $data->password2;
             

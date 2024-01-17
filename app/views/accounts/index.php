@@ -73,7 +73,7 @@ include __DIR__ . '/../header.php';
             accountDiv.innerHTML = `<p>Tag: ${account.username}#${account.account_id} <br> Email: ${account.email}</p>`;
 
             if (account.username != globalAccount.username) {
-                accountDiv.innerHTML += `<button onclick="addFriend('${account.account_id}')">Add Friend</button>`;
+                accountDiv.innerHTML += `<button class="btn btn-primary" onclick="addFriend('${account.account_id}')">Add Friend</button>`;
             } 
             container.appendChild(accountDiv); 
         });
@@ -114,7 +114,7 @@ include __DIR__ . '/../header.php';
                 }
             })
             .then(response => { 
-            response.clone().text().then(text => console.log("response = " + text)); // debug
+            response.clone().text().then(text => console.log("response getAllFriendRequests = " + text)); // debug
             return response.json();
             })  
             .then(friendrequests => {
@@ -135,7 +135,7 @@ include __DIR__ . '/../header.php';
                 friendrequestDiv.id = friendrequest.account_id;
                 friendrequestDiv.className = 'border border-primary rounded p-2 m-2 bg-dark text-white';
                 friendrequestDiv.innerHTML = `<p>Tag: ${friendrequest.username}#${friendrequest.account_id} <br> Email: ${friendrequest.email}</p>`;
-                friendrequestDiv.innerHTML += `<button onclick="acceptFriend('${friendrequest.account_id}')">Accept Friend</button>`;
+                friendrequestDiv.innerHTML += `<button class="btn btn-primary" onclick="acceptFriend('${friendrequest.account_id}')">Accept Friend</button>`;
                 container.appendChild(friendrequestDiv); 
             });
         }

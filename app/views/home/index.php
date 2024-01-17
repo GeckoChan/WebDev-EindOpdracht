@@ -16,7 +16,7 @@ include __DIR__ . '/../header.php';
         <div class="post-input-container w-50 p-3 bg-dark rounded">
             <textarea id="postTextarea" class="form-control" placeholder="Post something cool!" style="resize: none; height: 60%;" maxlength="2000" oninput="updateCounter()"></textarea>
             <div id="counter" class="text-light" style="height:20%;">0 / 2000</div>
-            <button class="btn btn-primary mt-2" style="height:20%;" onclick="createReaction()">Post</button>
+            <button class="btn btn-primary mt-2" style="height:20%;" onclick="createPost()">Post</button>
         </div>
     </div>
 </div>

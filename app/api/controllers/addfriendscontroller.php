@@ -9,12 +9,19 @@ class AddFriendsController {
         // send friend request
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $friendService = new FriendService();
-
             $json = file_get_contents('php://input');
             $data = json_decode($json);
-            $account1_id = $data->current_account_id; // account1_id is the person who sent the friend request
-            $account2_id = $data->target_account_id; // account2_id is the person who received the friend request
+
+            if(!isset($data->current_account_id, $data->target_account_id)) {
+                echo json_encode(null);
+                return;
+            }
+
+            $account1_id = filter_var($data->current_account_id, FILTER_VALIDATE_INT); // account1_id is the person who sent the friend request
+            $account2_id = filter_var($data->target_account_id, FILTER_VALIDATE_INT); // account2_id is the person who received the friend request
             $status = "pending";
+
+            
 
             $friend = new Friend($account1_id, $account2_id, $status);
             if ($friendService->CheckIfExist($account1_id, $account2_id)) {

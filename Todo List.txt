@@ -41,11 +41,18 @@ TODO List + Order
         READ                                                    ✔
         DELETE                                                  ✔                
 
-9. Like posts AND reactions                                     
+9. Like posts AND reactions                                     ✔      
 
-10. Give the website a nice and consistent appearance   
-    Create an actual css file lmao
-    Make the website adaptive to diffrent srceen sizes       
+10. code clean up
+    add update functionality to posts / accounts?               ✔
+    put in restrictions                                         ✔
+    remove My account functionality?                            ✔
+    remove friend functionality?
+    make code "safer" against malicious attacks 
+    remove duplicate code
+
+
 
 11. Finishing Touches
-    remove duplicate code
+    export db
+

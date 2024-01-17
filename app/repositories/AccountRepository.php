@@ -44,16 +44,19 @@ class AccountRepository extends Repository{
         $stmt->execute([
             'account_id' => $account_id
         ]);
+        return $stmt->execute();
     }
 
-    function update($account){
+    function updateAccount($account){
         $stmt = $this->connection->prepare("UPDATE accounts SET username = :username, password = :password, email = :email WHERE account_id = :account_id");
+        $hash = password_hash($account->getPassword(), PASSWORD_DEFAULT);
         $stmt->execute([
             'account_id' => $account->getAccountId(),
             'username' => $account->getUsername(),
-            'password' => $account->getPassword(),
+            'password' => $hash,
             'email' => $account->getEmail()
         ]);
+        return $stmt->rowCount() > 0;
     }
 }
 ?>

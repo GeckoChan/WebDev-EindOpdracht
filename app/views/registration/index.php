@@ -2,32 +2,132 @@
 include __DIR__ . '/../header.php';
 ?>
 
-<h1>Registration view</h1>
-<form id="registrationForm" method="POST">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required><br><br>
+<style>
+    .form-group {
+        display: flex;
+        justify-content: space-between;
+    }
+    label, input {
+        display: inline-block;
+    }
+</style>
 
-    <label for="email">Email:</label>
-    <input type="text" id="email" name="email" required><br><br>
-    
-    <label for="password">Password:</label>
-    <input type="password" id="password1" name="password1" required><br><br>
+<div id="overal-Container" style="position: relative; top: 10vh">
+    <h1 id='registrationH1'>Registration</h1>
+    <form id="registrationForm" method="POST" onsubmit="event.preventDefault();" style="width: 20%;">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required maxlength="20">
+        </div>
 
-    <label for="password">Password again:</label>
-    <input type="password" id="password2" name="password2" required><br><br>
-</form>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required maxlength="128">
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password1" name="password1" required maxlength="128">
+        </div>
 
-
-<button onclick="registration()">Registration</button>
-
+        <div class="form-group">
+            <label for="password">Password again:</label>
+            <input type="password" id="password2" name="password2" required maxlength="128">
+        </div>
+        <button id="formButton" onclick="registration()">Registration</button>
+    </form>
+</div>
 
 <script>
-function registration(){
+var globalAccount = null;
+
+fetch('/api/session', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+        }
+    })
+    .then(response => response.json())
+    .then(sessionData => {
+        globalAccount = sessionData;
+        if (globalAccount != null){
+            updateAccountView();
+        }
+    });
+
+function updateAccountView(){
+    var registrationH1 = document.getElementById('registrationH1');
+    registrationH1.innerHTML = 'Update Account';
+    var formButton = document.getElementById('formButton');
+    formButton.innerHTML = 'Update';
+    formButton.onclick = updateAccount;
+}
+
+function updateAccount(){
+    var registrationForm = document.getElementById('registrationForm');
+    if (!registrationForm.checkValidity()) {
+        alert('Please fill out all fields correctly.');
+        return;
+    }
+
     var username = document.getElementById('username').value;
     var email = document.getElementById('email').value;
     var password1 = document.getElementById('password1').value;
     var password2 = document.getElementById('password2').value;
 
+
+    if (password1 !== password2){
+        alert('Passwords do not match');
+        return;
+    }
+    var data = {
+        account_id: globalAccount.account_id,
+        username: username,
+        email: email,
+        password1: password1,
+        password2: password2
+    };
+
+    fetch('/api/updateaccount', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+    },
+    body: JSON.stringify(data)
+    })
+    .then(response => { 
+    response.clone().text().then(text => console.log("response updateaccount = " + text)); // debug
+    return response.json();
+    })
+    .then(response=> {
+        if(response){
+            alert('update successful');
+        }else{
+            alert('Update failed, Account already exists or passwords do not match');
+        }
+    })
+    .catch(error => {
+        console.error('There has been a problem with your fetch operation: ', error);
+        alert('There was a problem with the update. Please try again later.');
+    });
+}
+
+function registration(){
+    var registrationForm = document.getElementById('registrationForm');
+    if (!registrationForm.checkValidity()) {
+        alert('Please fill out all fields correctly.');
+        return;
+    }
+
+    var username = document.getElementById('username').value;
+    var email = document.getElementById('email').value;
+    var password1 = document.getElementById('password1').value;
+    var password2 = document.getElementById('password2').value;
+
+    if (password1 !== password2){
+        alert('Passwords do not match');
+        return;
+    }
     var data = {
         username: username,
         email: email,
@@ -42,16 +142,22 @@ function registration(){
     },
     body: JSON.stringify(data)
     })
-    .then(response=>response.json())
+    .then(response => { 
+    response.clone().text().then(text => console.log("response registration = " + text)); // debug
+    return response.json();
+    })
     .then(response=> {
-        console.log(response);
         if(response){
             alert('Registration successful');
+            window.location.href = '/login';
         }else{
-            alert('Invalid username or password OR accounts already exists');
+            alert('Regristation failed, Account already exists or passwords do not match');
         }
     })
-    .catch(error=>console.error(error));
+    .catch(error => {
+        console.error('There has been a problem with your fetch operation: ', error);
+        alert('There was a problem with the registration. Please try again later.');
+    });
 
 }
 </script>

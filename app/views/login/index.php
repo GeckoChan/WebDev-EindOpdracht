@@ -2,7 +2,7 @@
 include __DIR__ . '/../header.php';
 ?>
 
-<div id="overal-Container" style="position: relative; top: 10vh">
+<div id="overal-Container" style="position: relative; top: 10vh; margin-left: 1%;">
     <h1>Login view</h1>
 
     <div id="loginContainer">
@@ -39,8 +39,8 @@ function addLoginElements(){
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required><br><br>
         </form>
-        <button onclick="login()" id="loginButton">Login</button>
-        <button onclick="window.location.href = '/registration'">Registration</button>
+        <button class="btn btn-primary" onclick="login()" id="loginButton">Login</button>
+        <button class="btn btn-primary" onclick="window.location.href = '/registration'">Registration</button>
     `;
 }
 
@@ -48,7 +48,7 @@ function addLogoutElements(){
     var loginContainer = document.getElementById('loginContainer');
     loginContainer.innerHTML = '';
     loginContainer.innerHTML = `
-        <button onclick="logout()">Logout</button>
+        <button class="btn btn-primary" onclick="logout()">Logout</button>
     `;
 }
 
