@@ -30,6 +30,9 @@
                             <a class="nav-link" href="/login">Login</a>
                         </li>
                         <?php endif; ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/api/getposts">Post Api</a>
+                        </li>
                     </ul>
                 </div>
             </nav>

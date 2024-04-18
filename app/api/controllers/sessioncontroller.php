@@ -11,6 +11,7 @@ class SessionController {
             $account = new Account();
             $account->setAccountId($_SESSION['account_id']);
             $account->setUsername($_SESSION['username']);
+        
             $account->setEmail($_SESSION['email']);
         
             echo json_encode($account);

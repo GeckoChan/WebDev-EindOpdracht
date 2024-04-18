@@ -49,10 +49,10 @@ TODO List + Order
     remove My account functionality?                            ✔
     remove friend functionality?                                ✔
     make code "safer" against malicious attacks                 ✔
-    remove duplicate code
 
 
 
 11. Finishing Touches
-    export db
+    export db                                                   ✔
+    create readme                                               ✔
 
